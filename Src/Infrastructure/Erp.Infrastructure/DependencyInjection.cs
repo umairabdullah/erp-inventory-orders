@@ -1,6 +1,8 @@
-﻿using Erp.Domain.Common;
+﻿using Erp.Application.Inventory.Categories;
+using Erp.Domain.Common;
 using Erp.Domain.Inventory.Repositories;
 using Erp.Infrastructure.Persistence;
+using Erp.Infrastructure.Persistence.Queries;
 using Erp.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +22,8 @@ namespace Erp.Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IStockMovementRepository, StockMovementRepository>();
+
+            services.AddScoped<ICategoryQueries, CategoryQueries>();
 
             return services;
         }
