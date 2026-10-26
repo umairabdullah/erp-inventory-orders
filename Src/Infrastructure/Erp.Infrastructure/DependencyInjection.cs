@@ -1,4 +1,7 @@
 ﻿using Erp.Application.Inventory.Categories;
+using Erp.Application.Inventory.Categories.Queries;
+using Erp.Application.Inventory.Products;
+using Erp.Application.Inventory.StockMovements;
 using Erp.Domain.Common;
 using Erp.Domain.Inventory.Repositories;
 using Erp.Infrastructure.Persistence;
@@ -19,9 +22,15 @@ namespace Erp.Infrastructure
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
+            //write side: Repositories
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IStockMovementRepository, StockMovementRepository>();
+
+            //Read side: Queries
+            services.AddScoped<ICategoryQueries, CategoryQueries>();
+            services.AddScoped<IProductQueries, ProductQueries>();
+            services.AddScoped<IStockMovementQueries,  StockMovementQueries>();
 
             services.AddScoped<ICategoryQueries, CategoryQueries>();
 

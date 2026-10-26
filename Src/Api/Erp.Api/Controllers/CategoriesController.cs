@@ -1,8 +1,6 @@
 ﻿using Erp.Application.Inventory.Categories.Commands;
 using Erp.Application.Inventory.Categories.Queries;
-using Erp.Domain.Inventory;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.Controllers
