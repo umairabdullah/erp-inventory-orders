@@ -10,7 +10,7 @@ namespace Erp.Infrastructure.Persistence.Configurations
         {
 
             builder.ToTable("RefreshTokens");
-            builder.Property(r => r.Id).IsRequired();
+            builder.HasKey(r => r.Id);
             builder.Property(r => r.Id).ValueGeneratedNever();
 
             builder.Property(r => r.TokenHash).IsRequired().HasMaxLength(128);

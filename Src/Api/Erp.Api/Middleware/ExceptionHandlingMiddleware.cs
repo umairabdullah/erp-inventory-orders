@@ -10,11 +10,13 @@ namespace Erp.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+        private readonly IHostEnvironment _environment;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger, IHostEnvironment environment)
         {
             _next = next;
             _logger = logger;
+            _environment = environment;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -37,6 +39,7 @@ namespace Erp.Api.Middleware
                 DomainException => (StatusCodes.Status400BadRequest, "Business rule violated"),
                 NotFoundException => (StatusCodes.Status404NotFound, "Resource not found"),
                 ConflictException => (StatusCodes.Status409Conflict, "Conflict"),
+                UnauthorizedException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
                 _ => (StatusCodes.Status500InternalServerError, "Server error")
             };
 
@@ -48,8 +51,7 @@ namespace Erp.Api.Middleware
                 Status = status,
                 Title = title,
                 Detail = status == StatusCodes.Status500InternalServerError
-                    ? "An unexpected error occurred."
-                    : ex.Message
+                    ? (_environment.IsDevelopment() ? DescribeForDevelopment(ex) : "An unexpected error occurred.") : ex.Message
             };
 
             if (ex is FluentValidationException validation)
@@ -61,6 +63,16 @@ namespace Erp.Api.Middleware
 
             context.Response.StatusCode = status;
             await context.Response.WriteAsJsonAsync(problem);
+        }
+
+
+        private static string DescribeForDevelopment(Exception ex)
+        {
+            var text = $"{ex.GetType().Name}: {ex.Message}";
+            if (ex.InnerException is not null)
+                text += $" | Inner: {ex.InnerException.GetType().Name} : {ex.InnerException.Message}";
+
+            return text;
         }
     }
 }

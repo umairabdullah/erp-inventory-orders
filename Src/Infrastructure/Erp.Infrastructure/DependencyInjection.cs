@@ -1,16 +1,19 @@
-﻿using Erp.Application.Inventory.Categories;
+﻿using Erp.Application.Common.Interfaces;
+using Erp.Application.Inventory.Categories;
 using Erp.Application.Inventory.Categories.Queries;
 using Erp.Application.Inventory.Products;
 using Erp.Application.Inventory.StockMovements;
 using Erp.Domain.Common;
 using Erp.Domain.Identity.Repositories;
 using Erp.Domain.Inventory.Repositories;
+using Erp.Infrastructure.Identity;
 using Erp.Infrastructure.Persistence;
 using Erp.Infrastructure.Persistence.Queries;
 using Erp.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Erp.Infrastructure
 {
@@ -34,9 +37,11 @@ namespace Erp.Infrastructure
             services.AddScoped<IStockMovementQueries,  StockMovementQueries>();
 
             services.AddScoped<ICategoryQueries, CategoryQueries>();
-
             services.AddScoped<IUserRepository, UserRepository>();
             
+            services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<ITokenServices, JwtTokenService>();
 
             return services;
         }

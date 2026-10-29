@@ -54,6 +54,8 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("RefreshTokens", (string)null);
                 });
 
@@ -218,7 +220,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
                 {
                     b.HasOne("Erp.Domain.Identity.User", null)
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

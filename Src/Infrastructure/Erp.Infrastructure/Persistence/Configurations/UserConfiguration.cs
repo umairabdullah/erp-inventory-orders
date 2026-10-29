@@ -27,7 +27,7 @@ namespace Erp.Infrastructure.Persistence.Configurations
 
             builder.HasMany(u => u.RefreshTokens)
                 .WithOne()
-                .HasForeignKey(u => u.Id)
+                .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Navigation(u => u.RefreshTokens).UsePropertyAccessMode(PropertyAccessMode.Field);

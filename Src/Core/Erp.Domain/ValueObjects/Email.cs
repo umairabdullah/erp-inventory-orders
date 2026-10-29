@@ -14,7 +14,7 @@ namespace Erp.Domain.ValueObjects
                 throw new DomainException("Email is required.");
 
             var normalized = value.Trim().ToLowerInvariant();
-            if (normalized.Length > 0)
+            if (normalized.Length > 256)
                 throw new DomainException("Email cannot exceed 256 characters.");
 
             if (!Pattern.IsMatch(normalized))
