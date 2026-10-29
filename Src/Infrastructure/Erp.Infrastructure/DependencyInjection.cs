@@ -3,6 +3,7 @@ using Erp.Application.Inventory.Categories.Queries;
 using Erp.Application.Inventory.Products;
 using Erp.Application.Inventory.StockMovements;
 using Erp.Domain.Common;
+using Erp.Domain.Identity.Repositories;
 using Erp.Domain.Inventory.Repositories;
 using Erp.Infrastructure.Persistence;
 using Erp.Infrastructure.Persistence.Queries;
@@ -33,6 +34,9 @@ namespace Erp.Infrastructure
             services.AddScoped<IStockMovementQueries,  StockMovementQueries>();
 
             services.AddScoped<ICategoryQueries, CategoryQueries>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            
 
             return services;
         }
