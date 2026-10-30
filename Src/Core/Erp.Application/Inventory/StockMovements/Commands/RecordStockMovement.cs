@@ -1,4 +1,5 @@
 ﻿using Erp.Application.Common.Exceptions;
+using Erp.Application.Common.Interfaces;
 using Erp.Domain.Common;
 using Erp.Domain.Exceptions;
 using Erp.Domain.Inventory;
@@ -38,12 +39,14 @@ namespace Erp.Application.Inventory.StockMovements.Commands
     {
         private readonly IProductRepository _products;
         private readonly IStockMovementRepository _movements;
+        private readonly ICurrentUser _currentUser;
         private readonly IUnitOfWork _unitOfWork;
 
-        public RecordStockMovementCommandHandler(IProductRepository products, IStockMovementRepository movements, IUnitOfWork unitOfWork)
+        public RecordStockMovementCommandHandler(IProductRepository products, IStockMovementRepository movements, ICurrentUser currentUser, IUnitOfWork unitOfWork)
         {
             _products = products;
             _movements = movements;
+            _currentUser = currentUser;
             _unitOfWork = unitOfWork;
         }
 
@@ -59,11 +62,11 @@ namespace Erp.Application.Inventory.StockMovements.Commands
 
                 case StockMovementType.In:
                     product.AddStock(request.Quantity);
-                    movement = StockMovement.RecordIn(product.Id, StockMovementType.In, request.Quantity, product.QuantityInStock, request.Reason, null);
+                    movement = StockMovement.RecordIn(product.Id, StockMovementType.In, request.Quantity, product.QuantityInStock, request.Reason, _currentUser.UserId);
                     break;
                 case StockMovementType.Out:
                     product.RemoveStock(request.Quantity);
-                    movement = StockMovement.RecordOut(product.Id, StockMovementType.Out, request.Quantity, product.QuantityInStock, request.Reason, null);
+                    movement = StockMovement.RecordOut(product.Id, StockMovementType.Out, request.Quantity, product.QuantityInStock, request.Reason, _currentUser.UserId);
                     break;
                 case StockMovementType.Adjustment:
                     if (request.Quantity > 0)
@@ -71,7 +74,7 @@ namespace Erp.Application.Inventory.StockMovements.Commands
                     else
                         product.RemoveStock(-request.Quantity);
                     movement = StockMovement.RecordAdjustment(
-                     product.Id, request.Quantity, product.QuantityInStock, request.Reason!, null);
+                     product.Id, request.Quantity, product.QuantityInStock, request.Reason!, _currentUser.UserId);
                     break;
                 default:
                     throw new DomainException("Unknown stock movement type.");

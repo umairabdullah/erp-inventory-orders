@@ -1,7 +1,10 @@
 using Erp.Api.Middleware;
+using Erp.Api.Services;
 using Erp.Application;
+using Erp.Application.Common.Interfaces;
 using Erp.Infrastructure;
 using Erp.Infrastructure.Identity;
+using Erp.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -12,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 var jwt = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>() ?? throw new InvalidOperationException("Jwt settings are missing.");
 
@@ -86,5 +92,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await AdminSeeder.SeedAsync(app.Services);
 
 app.Run();
