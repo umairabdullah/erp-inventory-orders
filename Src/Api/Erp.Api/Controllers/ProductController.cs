@@ -1,12 +1,15 @@
-﻿using Erp.Application.Inventory.Products.Commands;
+﻿using Erp.Api.Authorization;
+using Erp.Application.Inventory.Products.Commands;
 using Erp.Application.Inventory.Products.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ISender _sender;
@@ -27,6 +30,7 @@ namespace Erp.Api.Controllers
             => Ok(await _sender.Send(new GetProductByIdQuery(id), cancellationToken));
 
         [HttpPost]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
         public async Task<IActionResult> Create(CreateProductCommand command, CancellationToken cancellationToken)
         {
             var id = await _sender.Send(command, cancellationToken);

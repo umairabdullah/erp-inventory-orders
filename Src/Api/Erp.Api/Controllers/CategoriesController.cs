@@ -1,12 +1,15 @@
-﻿using Erp.Application.Inventory.Categories.Commands;
+﻿using Erp.Api.Authorization;
+using Erp.Application.Inventory.Categories.Commands;
 using Erp.Application.Inventory.Categories.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ISender _sender;
@@ -25,6 +28,7 @@ namespace Erp.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
         public async Task<IActionResult> Create(CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken = default) 
         {
             var id = await _sender.Send(createCategoryCommand, cancellationToken);

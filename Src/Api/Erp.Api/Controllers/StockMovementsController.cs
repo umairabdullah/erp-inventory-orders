@@ -1,14 +1,17 @@
-﻿using Erp.Application.Inventory.Products.Queries;
+﻿using Erp.Api.Authorization;
+using Erp.Application.Inventory.Products.Queries;
 using Erp.Application.Inventory.StockMovements.Commands;
 using Erp.Application.Inventory.StockMovements.Queries;
 using Erp.Domain.Inventory;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Erp.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StockMovementsController : ControllerBase
     {
         private readonly ISender _sender;
@@ -20,6 +23,7 @@ namespace Erp.Api.Controllers
             => Ok(await _sender.Send(new GetStockMovementsQuery(productId, page, pageSize), cancellationToken));
 
         [HttpPost]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
         public async Task<IActionResult> Record(
              RecordStockMovementRequest request, CancellationToken cancellationToken)
              => Ok(await _sender.Send(
