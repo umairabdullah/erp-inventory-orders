@@ -6,6 +6,7 @@ using Erp.Application.Inventory.StockMovements;
 using Erp.Domain.Common;
 using Erp.Domain.Identity.Repositories;
 using Erp.Domain.Inventory.Repositories;
+using Erp.Domain.Sales.Repositories;
 using Erp.Infrastructure.Identity;
 using Erp.Infrastructure.Persistence;
 using Erp.Infrastructure.Persistence.Queries;
@@ -42,6 +43,9 @@ namespace Erp.Infrastructure
             services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenServices, JwtTokenService>();
+
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             return services;
         }
