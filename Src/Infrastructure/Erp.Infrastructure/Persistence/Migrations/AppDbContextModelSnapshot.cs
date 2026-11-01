@@ -258,7 +258,6 @@ namespace Erp.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CancellationReason")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -305,13 +304,13 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Erp.Domain.Sales.Orders.OrderItem", b =>
                 {
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProductId")
@@ -333,7 +332,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
@@ -465,8 +464,8 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
-                                .HasMaxLength(30)
-                                .HasColumnType("nvarchar(30)")
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)")
                                 .HasColumnName("TotalCurrency");
 
                             b1.HasKey("OrderId");
@@ -497,7 +496,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                     b.OwnsOne("Erp.Domain.ValueObjects.Money", "UnitPrice", b1 =>
                         {
-                            b1.Property<Guid>("OrderItemOrderId")
+                            b1.Property<Guid>("OrderItemId")
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
@@ -511,12 +510,12 @@ namespace Erp.Infrastructure.Persistence.Migrations
                                 .HasColumnType("nvarchar(3)")
                                 .HasColumnName("UnitPriceCurrency");
 
-                            b1.HasKey("OrderItemOrderId");
+                            b1.HasKey("OrderItemId");
 
                             b1.ToTable("OrderItems");
 
                             b1.WithOwner()
-                                .HasForeignKey("OrderItemOrderId");
+                                .HasForeignKey("OrderItemId");
                         });
 
                     b.Navigation("UnitPrice")

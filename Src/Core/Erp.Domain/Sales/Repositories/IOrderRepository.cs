@@ -6,5 +6,6 @@ namespace Erp.Domain.Sales.Repositories
     {
         Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task AddAsync(Order order, CancellationToken cancellationToken = default);
+        Task<int> CountByNumberPrefixAsync(string prefix,  CancellationToken cancellationToken = default);
     }
 }

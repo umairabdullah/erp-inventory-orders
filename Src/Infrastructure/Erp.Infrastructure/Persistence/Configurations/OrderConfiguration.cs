@@ -18,13 +18,13 @@ namespace Erp.Infrastructure.Persistence.Configurations
             builder.HasIndex(o => o.OrderNumber).IsUnique();
 
             builder.Property(o => o.Status).HasConversion<string>().HasMaxLength(20).IsRequired();
-            builder.Property(o => o.Notes).HasMaxLength(500);
-            builder.Property(o => o.CancellationReason).HasMaxLength(500);
+            builder.Property(o => o.Notes).HasMaxLength(500).IsRequired(false);
+            builder.Property(o => o.CancellationReason).HasMaxLength(500).IsRequired(false);
 
             builder.OwnsOne(o => o.Total, total =>
             {
                 total.Property(m => m.Amount).HasColumnName("TotalAmount").HasPrecision(18, 2).IsRequired();
-                total.Property(m => m.Currency).HasColumnName("TotalCurrency").HasMaxLength(30).IsRequired();
+                total.Property(m => m.Currency).HasColumnName("TotalCurrency").HasMaxLength(3).IsRequired();
             });
 
             builder.Navigation(o => o.Total).IsRequired();

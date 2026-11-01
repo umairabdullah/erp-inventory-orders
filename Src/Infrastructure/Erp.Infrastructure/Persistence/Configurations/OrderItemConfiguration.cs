@@ -11,8 +11,8 @@ namespace Erp.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("OrderItems");
 
-            builder.HasKey(x => x.OrderId);
-            builder.Property(x => x.OrderId).ValueGeneratedNever();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedNever();
 
             builder.Property(i => i.ProductName).IsRequired().HasMaxLength(200);
             builder.Property(i => i.ProductSku).IsRequired().HasMaxLength(30);
@@ -26,6 +26,11 @@ namespace Erp.Infrastructure.Persistence.Configurations
 
             builder.Navigation(i => i.UnitPrice).IsRequired();
             builder.Ignore(l => l.LineTotal);
+
+            //builder.HasOne<Order>()   
+            //    .WithMany()
+            //    .HasForeignKey(i => i.OrderId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne<Product>()
                 .WithMany()

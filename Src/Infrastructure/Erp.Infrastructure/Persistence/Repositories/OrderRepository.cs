@@ -12,6 +12,9 @@ namespace Erp.Infrastructure.Persistence.Repositories
         public async Task AddAsync(Order order, CancellationToken cancellationToken = default)
             => await _db.Orders.AddAsync(order, cancellationToken);
 
+        public Task<int> CountByNumberPrefixAsync(string prefix, CancellationToken cancellationToken = default)
+            => _db.Orders.CountAsync(o => o.OrderNumber.StartsWith(prefix), cancellationToken);
+
         public Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
             => _db.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
     }

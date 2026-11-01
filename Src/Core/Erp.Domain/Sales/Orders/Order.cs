@@ -13,7 +13,7 @@ namespace Erp.Domain.Sales.Orders
         public OrderStatus Status { get; private set; }
         public DateTime PlacedAtUtc { get; private set; }
         public string? Notes { get; private set; }
-        public string CancellationReason { get; private set; }
+        public string? CancellationReason { get; private set; }
         public Guid? CreatedByUserId { get; private set; }
         public Money Total { get; private set; } = null!;
 
