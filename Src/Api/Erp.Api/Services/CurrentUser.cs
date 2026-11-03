@@ -1,4 +1,5 @@
-﻿using Erp.Application.Common.Interfaces;
+﻿using Erp.Api.Authorization;
+using Erp.Application.Common.Interfaces;
 
 namespace Erp.Api.Services
 {
@@ -13,6 +14,15 @@ namespace Erp.Api.Services
             {
                 var value = _accessor.HttpContext?.User.FindFirst("sub")?.Value;
                 return Guid.TryParse(value, out var id) ? id : null;
+            }
+        }
+
+        public bool IsManagerOrAdmin
+        {
+            get
+            {
+                var role = _accessor.HttpContext?.User.FindFirst("role")?.Value;
+                return role is AppRole.Manager or AppRole.Admin;
             }
         }
     }

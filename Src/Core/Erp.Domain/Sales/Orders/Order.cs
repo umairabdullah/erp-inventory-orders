@@ -82,7 +82,7 @@ namespace Erp.Domain.Sales.Orders
 
         public void Cancel(string? reason)
         {
-            if (Status is not OrderStatus.Pending or OrderStatus.Confirmed)
+            if (Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
                 throw new DomainException(
                 $"Only Pending or Confirmed orders can be cancelled. This order is {Status}.");
 
@@ -91,7 +91,7 @@ namespace Erp.Domain.Sales.Orders
                 throw new DomainException("Cancellation reason cannot exceed 500 characters.");
 
             Status = OrderStatus.Cancelled;
-            CancellationReason = cleanReason;
+            CancellationReason = cleanReason?.Trim();
             MarkUpdated();
 
         }

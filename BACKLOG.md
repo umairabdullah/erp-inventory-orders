@@ -35,3 +35,6 @@
 ## Sales / Orders: known risks
 - [ ] Order number race: two orders placed at the same instant can get the same number; the unique index rejects one with a 500. Retry on failure or use a database sequence.
 - [ ] Overselling race: two people ordering the last units at the same moment can both pass the stock check. Add RowVersion concurrency on the product's stock.
+
+- Concurrency on Order: two simultaneous cancels could return stock twice (RowVersion)
+- Order status history (who changed the status, and when)

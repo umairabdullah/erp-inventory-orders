@@ -36,5 +36,38 @@ namespace Erp.Api.Controllers
             var result = await _sender.Send(command, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
+
+        
+        [HttpPost("{id:guid}/confirm")]
+        public async Task<IActionResult> Confirm(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new ChangeOrderStatusCommand(id, OrderStatus.Confirmed), cancellationToken);
+            return NoContent();
+        }
+
+
+        [HttpPost("{id:guid}/ship")]
+        public async Task<IActionResult> Ship(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new ChangeOrderStatusCommand(id, OrderStatus.Shipped), cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPost("{id:guid}/deliver")]
+        public async Task<IActionResult> Deliver(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new ChangeOrderStatusCommand(id, OrderStatus.Delivered), cancellationToken);
+            return NoContent();
+        }
+
+
+        [HttpPost("{id:guid}/cancel")]
+        public async Task<IActionResult> Cancel(Guid id, CancelOrderRequest? request, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new CancelOrderCommand(id, request?.Reason), cancellationToken);
+            return NoContent();
+        }
+
+        public sealed record CancelOrderRequest(string? Reason);
     }
 }

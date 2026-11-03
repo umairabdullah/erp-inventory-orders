@@ -3,5 +3,6 @@
     public interface ICurrentUser
     {
         public Guid? UserId { get; }
+        bool IsManagerOrAdmin { get; }
     }
 }
