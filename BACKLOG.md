@@ -47,3 +47,5 @@
 - User search by email, and deactivating a user account from the API
 - Prevent demoting the last remaining Admin
 
+- Include a trace id in 500 responses so users can quote it to support
+- Startup admin seeder fails the whole app when the database is down
