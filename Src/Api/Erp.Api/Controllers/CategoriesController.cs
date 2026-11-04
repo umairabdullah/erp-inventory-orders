@@ -29,10 +29,27 @@ namespace Erp.Api.Controllers
 
         [HttpPost]
         [Authorize(Roles = AppRole.ManagerOrAdmin)]
-        public async Task<IActionResult> Create(CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken = default) 
+        public async Task<IActionResult> Create(CreateCategoryCommand createCategoryCommand, CancellationToken cancellationToken = default)
         {
             var id = await _sender.Send(createCategoryCommand, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id }, new { id });
         }
+
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
+        public async Task<IActionResult> Update(Guid id, UpdateCategoryCommand command, CancellationToken cancellationToken)
+        {
+            await _sender.Send(command with { Id = id }, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpDelete("{id:guid}")]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new DeleteCategoryCommand(id), cancellationToken);
+            return NoContent();
+        }
+    
     }
 }

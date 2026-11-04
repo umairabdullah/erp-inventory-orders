@@ -3,6 +3,7 @@ using Erp.Application.Inventory.Categories;
 using Erp.Application.Inventory.Categories.Queries;
 using Erp.Application.Inventory.Products;
 using Erp.Application.Inventory.StockMovements;
+using Erp.Application.Inventory.Users;
 using Erp.Application.Sales.Customers;
 using Erp.Application.Sales.Orders;
 using Erp.Domain.Common;
@@ -50,6 +51,7 @@ namespace Erp.Infrastructure
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICustomerQueries, CustomerQueries>();
             services.AddScoped<IOrderQueries, OrderQueries>();
+            services.AddScoped<IUserQueries, UserQueries>();
 
             return services;
         }

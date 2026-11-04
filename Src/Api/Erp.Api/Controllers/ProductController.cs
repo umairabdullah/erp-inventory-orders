@@ -36,5 +36,23 @@ namespace Erp.Api.Controllers
             var id = await _sender.Send(command, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id }, new { id });
         }
+
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
+        public async Task<IActionResult> Update(Guid id, UpdateProductCommand command, CancellationToken cancellationToken)
+        {
+            await _sender.Send(command with { Id = id }, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPatch("{id:guid}/status")]
+        [Authorize(Roles = AppRole.ManagerOrAdmin)]
+        public async Task<IActionResult> SetStatus(Guid id, SetProductStatusRequest request, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new SetProductStatusCommand(id, request.IsActive), cancellationToken);
+            return NoContent();
+        }
     }
+
+    public sealed record SetProductStatusRequest(bool IsActive);
 }

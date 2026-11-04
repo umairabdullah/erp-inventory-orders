@@ -19,10 +19,10 @@ namespace Erp.Infrastructure.Persistence.Repositories
         public Task<bool> HasProductAsync(Guid categoryId, CancellationToken cancellationToken = default)
             => _db.Products.AnyAsync(p => p.CategoryId == categoryId, cancellationToken);
 
-        public Task<bool> NameExistsAsync(string name, CancellationToken cancellationToken = default)
+        public Task<bool> NameExistsAsync(string name, Guid? excludingCategoryId = null, CancellationToken cancellationToken = default)
         {
             var trimmed = name.Trim();
-            return _db.Categories.AnyAsync(c => c.Name == trimmed, cancellationToken);
+            return _db.Categories.AnyAsync(c => c.Name == trimmed && (excludingCategoryId == null || c.Id != excludingCategoryId), cancellationToken);
         }
 
         public void Remove(Category category) => _db.Categories.Remove(category);

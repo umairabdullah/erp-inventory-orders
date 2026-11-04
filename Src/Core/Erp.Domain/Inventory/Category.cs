@@ -1,11 +1,5 @@
 ﻿using Erp.Domain.Common;
 using Erp.Domain.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Erp.Domain.Inventory
 {
@@ -23,16 +17,27 @@ namespace Erp.Domain.Inventory
             return category;
         }
 
+        public void Update(string name, string? description)
+        {
+            Apply(name, description);
+            MarkUpdated();
+        }
+
         private void Apply(string name, string? description)
         {
-            if(string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException("Category name is required.");
 
-            if (name.Trim().Length > 100)
-                throw new DomainException("Category name cannot exceed 100 characters");
+            var cleanName = name.Trim();
+            if (cleanName.Length > 100)
+                throw new DomainException("Category name cannot exceed 100 characters.");
 
-            Name = name.Trim();
-            Description = description?.Trim();
+            var cleanDescription = description?.Trim();
+            if (cleanDescription is { Length: > 500 })
+                throw new DomainException("Description cannot exceed 500 characters.");
+
+            Name = cleanName;
+            Description = cleanDescription;
         }
     }
 }

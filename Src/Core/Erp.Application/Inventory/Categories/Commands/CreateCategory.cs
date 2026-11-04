@@ -31,7 +31,7 @@ namespace Erp.Application.Inventory.Categories.Commands
 
         public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            if (await _categories.NameExistsAsync(request.Name, cancellationToken))
+            if (await _categories.NameExistsAsync(request.Name, null , cancellationToken))
                 throw new ConflictException($"A category name '{request.Name}' already exists.");
 
             var category = Category.Create(request.Name, request.Description);

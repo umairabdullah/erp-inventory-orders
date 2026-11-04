@@ -38,3 +38,6 @@
 
 - Concurrency on Order: two simultaneous cancels could return stock twice (RowVersion)
 - Order status history (who changed the status, and when)
+
+- User search by email, and deactivating a user account from the API
+- Prevent demoting the last remaining Admin
