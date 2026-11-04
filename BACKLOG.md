@@ -49,3 +49,9 @@
 
 - Include a trace id in 500 responses so users can quote it to support
 - Startup admin seeder fails the whole app when the database is down
+
+- Forwarded headers so rate limiting sees the real client IP behind a proxy or Docker
+- Per-account lockout after repeated failed logins (IP limits do not stop attackers spread over many IPs)
+- Shared rate limit store (for example Redis) if the API runs on more than one instance
+- Sliding window limiter instead of fixed window
+

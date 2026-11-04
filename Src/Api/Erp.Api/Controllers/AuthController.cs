@@ -1,6 +1,7 @@
 ﻿using Erp.Application.Auth.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Erp.Api.Controllers
 {
@@ -11,7 +12,9 @@ namespace Erp.Api.Controllers
         private readonly ISender _sender;
         public AuthController(ISender sender) => _sender = sender;
 
+
         [HttpPost("register")]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Register(RegisterCommand command, CancellationToken cancellationToken)
         {
             var id = await _sender.Send(command, cancellationToken);
@@ -19,6 +22,7 @@ namespace Erp.Api.Controllers
         }
 
         [HttpPost("login")]
+        [EnableRateLimiting("login")]
         public async Task<IActionResult> Login(LoginCommand command, CancellationToken cancellationToken)
             => Ok(await _sender.Send(command, cancellationToken));
 
