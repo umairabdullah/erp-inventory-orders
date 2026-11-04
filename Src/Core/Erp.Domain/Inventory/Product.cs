@@ -1,11 +1,6 @@
 ﻿using Erp.Domain.Common;
 using Erp.Domain.Exceptions;
 using Erp.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Erp.Domain.Inventory
 {
@@ -19,6 +14,7 @@ namespace Erp.Domain.Inventory
         public int ReorderLevel { get; private set; }
         public bool IsActive { get; private set; } = true;
         public Guid CategoryId { get; private set; }
+        public byte[] RowVersion { get; private set; } = Array.Empty<byte>();
 
         public bool IsLowStock => QuantityInStock <= ReorderLevel;
 

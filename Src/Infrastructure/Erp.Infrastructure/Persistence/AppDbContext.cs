@@ -4,6 +4,7 @@ using Erp.Domain.Inventory;
 using Erp.Domain.Sales.Customers;
 using Erp.Domain.Sales.Orders;
 using Microsoft.EntityFrameworkCore;
+using Erp.Application.Common.Exceptions;
 
 namespace Erp.Infrastructure.Persistence
 {
@@ -26,6 +27,19 @@ namespace Erp.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await base.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+                throw new ConflictException("The data was change by someone else while you were working, please reload and try again.");
+            }
         }
     }
 }

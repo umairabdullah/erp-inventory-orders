@@ -35,6 +35,8 @@ namespace Erp.Infrastructure.Persistence.Configurations
                 .WithMany()
                 .HasForeignKey( p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(p => p.RowVersion).IsRowVersion();
         }
     }
 }

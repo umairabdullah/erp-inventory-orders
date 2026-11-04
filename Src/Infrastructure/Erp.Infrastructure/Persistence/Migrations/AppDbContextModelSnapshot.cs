@@ -159,6 +159,12 @@ namespace Erp.Infrastructure.Persistence.Migrations
                     b.Property<int>("ReorderLevel")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<string>("Sku")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -281,6 +287,12 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                     b.Property<DateTime>("PlacedAtUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("Status")
                         .IsRequired()

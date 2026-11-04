@@ -41,6 +41,8 @@ namespace Erp.Infrastructure.Persistence.Configurations
             builder.Navigation(o => o.Items).UsePropertyAccessMode(PropertyAccessMode.Field);
 
             builder.HasIndex(o => o.PlacedAtUtc);
+
+            builder.Property(o => o.RowVersion).IsRowVersion();
         }
     }
 }

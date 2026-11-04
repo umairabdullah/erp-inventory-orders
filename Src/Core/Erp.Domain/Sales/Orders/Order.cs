@@ -17,6 +17,8 @@ namespace Erp.Domain.Sales.Orders
         public Guid? CreatedByUserId { get; private set; }
         public Money Total { get; private set; } = null!;
 
+        public byte[] RowVersion { get; private set; } = Array.Empty<byte>();
+
         public IReadOnlyCollection<OrderItem> Items => _items.AsReadOnly();
 
         private Order() { }
