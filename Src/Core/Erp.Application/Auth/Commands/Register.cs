@@ -34,12 +34,13 @@ namespace Erp.Application.Auth.Commands
         private readonly IUserRepository _users;
         private readonly IPasswordHasher _hasher;
         private readonly IUnitOfWork _unitOfWork;
-        
-        public RegisterCommandHandler(IUserRepository users, IPasswordHasher hasher, IUnitOfWork unitOfWork)
+        private readonly EmailConfirmationSender _confirmation;
+        public RegisterCommandHandler(IUserRepository users, IPasswordHasher hasher, IUnitOfWork unitOfWork, EmailConfirmationSender confirmation)
         {
             _users = users;
             _hasher = hasher;
             _unitOfWork = unitOfWork;
+            _confirmation = confirmation;
         }
 
         public async Task<Guid> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -51,8 +52,11 @@ namespace Erp.Application.Auth.Commands
             var passwordHash = _hasher.Hash(request.Password);
             var user = User.Register(request.FullName, email, passwordHash, Role.Staff);
 
+            var rawToken = _confirmation.IssueToken(user);
+
             await _users.AddAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _confirmation.SendAsync(user, rawToken, cancellationToken);
 
             return user.Id;
         }

@@ -72,6 +72,13 @@ namespace Erp.Infrastructure.Persistence.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<DateTime?>("EmailConfirmationExpiresAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailConfirmationTokenHash")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 

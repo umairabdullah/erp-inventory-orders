@@ -16,6 +16,7 @@ namespace Erp.Application
             services.AddValidatorsFromAssembly(assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviors<,>));
             services.AddScoped<AuthSessionIssuer>();
+            services.AddScoped<EmailConfirmationSender>();
             return services;
         }
     }

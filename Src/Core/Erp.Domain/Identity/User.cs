@@ -2,12 +2,17 @@
 using Erp.Domain.Exceptions;
 using Erp.Domain.Identity.Repositories;
 using Erp.Domain.ValueObjects;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Erp.Domain.Identity
 {
     public sealed class User : AggregateRoot
     {
         private readonly List<RefreshToken> _refreshTokens = new();
+
+        public string? EmailConfirmationTokenHash { get; private set; }
+        public DateTime? EmailConfirmationExpiresAtUtc { get; private set; }
         public string FullName { get; private set; } = string.Empty;
         public Email Email { get; private set; } = null!;
         public string PasswordHash { get; private set; } = string.Empty;
@@ -46,6 +51,8 @@ namespace Erp.Domain.Identity
         public void ConfirmEmail()
         {
             EmailConfirmed = true;
+            EmailConfirmationTokenHash = null;
+            EmailConfirmationExpiresAtUtc = null;
             MarkUpdated();
         }
 
@@ -90,8 +97,39 @@ namespace Erp.Domain.Identity
                 token.Revoke();
         }
 
-      
+        public void IssueEmailConfirmationToken(string tokenHash, DateTime expiresAtUtc)
+        {
+            if (EmailConfirmed)
+                throw new DomainException("Email is already confirmed.");
 
+            if (string.IsNullOrWhiteSpace(tokenHash))
+                throw new DomainException("Token hash is required.");
+
+            if (expiresAtUtc <= DateTime.UtcNow)
+                throw new DomainException("Token expiry must be in the future.");
+
+            EmailConfirmationTokenHash = tokenHash;
+            EmailConfirmationExpiresAtUtc = expiresAtUtc;
+            MarkUpdated();
+        }
+
+        public bool TryConfirmEmail(string tokenHash, DateTime utcNow)
+        {
+            if (EmailConfirmed || EmailConfirmationTokenHash is null || EmailConfirmationExpiresAtUtc is null)
+                return false;
+
+            if(utcNow >= EmailConfirmationExpiresAtUtc)
+                return false;
+
+            var stored = Encoding.UTF8.GetBytes(EmailConfirmationTokenHash);
+            var given = Encoding.UTF8.GetBytes(tokenHash);
+
+            if (!CryptographicOperations.FixedTimeEquals(stored, given))
+                return false;
+
+            ConfirmEmail();
+            return true;
+        }
      
     }
 

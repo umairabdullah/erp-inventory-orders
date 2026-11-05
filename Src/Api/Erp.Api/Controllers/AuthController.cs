@@ -36,6 +36,20 @@ namespace Erp.Api.Controllers
             await _sender.Send(command, cancellationToken);
             return NoContent();
         }
-             
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmailCommand command, CancellationToken cancellationToken)
+        {
+            await _sender.Send(command, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPost("resend-confirmation")]
+        [EnableRateLimiting("login")]
+        public async Task<IActionResult> ResendConfirmation(ResendConfirmationCommand command, CancellationToken cancellationToken)
+        {
+            await _sender.Send(command, cancellationToken);
+            return NoContent();
+        }
     }
 }

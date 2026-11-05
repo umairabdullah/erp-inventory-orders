@@ -31,6 +31,7 @@ namespace Erp.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Navigation(u => u.RefreshTokens).UsePropertyAccessMode(PropertyAccessMode.Field);
+            builder.Property(u => u.EmailConfirmationTokenHash).HasMaxLength(128);
         }
     }
 }

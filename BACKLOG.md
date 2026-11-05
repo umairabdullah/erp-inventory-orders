@@ -55,3 +55,7 @@
 - Shared rate limit store (for example Redis) if the API runs on more than one instance
 - Sliding window limiter instead of fixed window
 
+- Order confirmation email through a domain event (email step 2)
+- Per-address limit on resend-confirmation so one victim cannot be flooded with emails
+- Password reset by email
+- Background queue for sending emails instead of sending inside the request

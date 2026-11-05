@@ -9,5 +9,7 @@ namespace Erp.Application.Common.Interfaces
         AccessToken CreateAccessToken(User user);
         string GenerateRefreshToken();
         string HashRefreshToken(string refreshToken);
+        string GenerateUrlSafeToken();
+        string HashToken(string token);
     }
 }

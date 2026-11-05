@@ -42,6 +42,9 @@ namespace Erp.Application.Auth.Commands
             if (user is null || !user.IsActive || !_hasher.Verify(user.PasswordHash, request.Password))
                 throw new UnauthorizedException("Invalid email or password");
 
+            if (!user.EmailConfirmed)
+                throw new ForbiddenException("Please confirm your email address before signing in.");
+
             var result = _issuer.Issue(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

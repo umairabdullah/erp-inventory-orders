@@ -57,8 +57,16 @@ namespace Erp.Infrastructure.Identity
         public string GenerateRefreshToken()
             => Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
+        public string GenerateUrlSafeToken()
+            => Base64UrlEncoder.Encode(RandomNumberGenerator.GetBytes(32));
+
+        public string HashToken(string token)
+            => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(token)));
+
         public string HashRefreshToken(string refreshToken)
             => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken)));
+
+
       
     }
 }

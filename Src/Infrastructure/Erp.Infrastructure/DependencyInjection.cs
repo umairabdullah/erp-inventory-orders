@@ -11,6 +11,7 @@ using Erp.Domain.Identity.Repositories;
 using Erp.Domain.Inventory.Repositories;
 using Erp.Domain.Sales.Repositories;
 using Erp.Infrastructure.Identity;
+using Erp.Infrastructure.Mail;
 using Erp.Infrastructure.Persistence;
 using Erp.Infrastructure.Persistence.Queries;
 using Erp.Infrastructure.Persistence.Repositories;
@@ -52,6 +53,10 @@ namespace Erp.Infrastructure
             services.AddScoped<ICustomerQueries, CustomerQueries>();
             services.AddScoped<IOrderQueries, OrderQueries>();
             services.AddScoped<IUserQueries, UserQueries>();
+
+            services.Configure<EmailSettings>(configuration.GetSection(EmailSettings.SectionName));
+            services.AddSingleton<IEmailService, SmtpEmailService>();
+            services.AddSingleton<IAppLinks, AppLinks>();
 
             return services;
         }
