@@ -59,3 +59,8 @@
 - Per-address limit on resend-confirmation so one victim cannot be flooded with emails
 - Password reset by email
 - Background queue for sending emails instead of sending inside the request
+
+- Outbox pattern: store events in the database in the same transaction, and send from a background worker so a crash cannot lose an email
+- Emails for order confirmation, shipping, delivery, and cancellation (handlers on new events)
+- HTML email templates, instead of building the markup in code
+- Retry with backoff when sending an email fails

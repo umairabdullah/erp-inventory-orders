@@ -57,6 +57,8 @@ namespace Erp.Domain.Sales.Orders
             foreach (var line in lineList)
                 order.AddLine(line);
 
+            order.AddDomainEvent(new OrderPlacedEvent(order.Id, order.OrderNumber, order.CustomerId));
+
             return order;
 
         }

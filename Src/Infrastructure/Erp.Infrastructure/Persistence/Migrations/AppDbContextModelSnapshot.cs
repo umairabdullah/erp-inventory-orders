@@ -226,7 +226,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("ProductId", "CreatedAtUtc");
 
-                    b.ToTable("StockMovements");
+                    b.ToTable("StockMovements", (string)null);
                 });
 
             modelBuilder.Entity("Erp.Domain.Sales.Customers.Customer", b =>
@@ -378,7 +378,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("Erp.Domain.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("Erp.Domain.Inventory.Product.Price#Erp.Domain.ValueObjects.Money", "Price", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uniqueidentifier");
@@ -396,7 +396,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("Products");
+                            b1.ToTable("Products", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
@@ -417,7 +417,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Erp.Domain.Sales.Customers.Customer", b =>
                 {
-                    b.OwnsOne("Erp.Domain.Sales.Customers.Address", "Address", b1 =>
+                    b.OwnsOne("Erp.Domain.Sales.Customers.Customer.Address#Erp.Domain.Sales.Customers.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("CustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -453,7 +453,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("CustomerId");
 
-                            b1.ToTable("Customers");
+                            b1.ToTable("Customers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("CustomerId");
@@ -471,7 +471,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("Erp.Domain.ValueObjects.Money", "Total", b1 =>
+                    b.OwnsOne("Erp.Domain.Sales.Orders.Order.Total#Erp.Domain.ValueObjects.Money", "Total", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("uniqueidentifier");
@@ -489,7 +489,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Orders");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -513,7 +513,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("Erp.Domain.ValueObjects.Money", "UnitPrice", b1 =>
+                    b.OwnsOne("Erp.Domain.Sales.Orders.OrderItem.UnitPrice#Erp.Domain.ValueObjects.Money", "UnitPrice", b1 =>
                         {
                             b1.Property<Guid>("OrderItemId")
                                 .HasColumnType("uniqueidentifier");
@@ -531,7 +531,7 @@ namespace Erp.Infrastructure.Persistence.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderItems");
+                            b1.ToTable("OrderItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
