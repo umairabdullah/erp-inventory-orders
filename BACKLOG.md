@@ -64,3 +64,7 @@
 - Emails for order confirmation, shipping, delivery, and cancellation (handlers on new events)
 - HTML email templates, instead of building the markup in code
 - Retry with backoff when sending an email fails
+
+- Tests: handler tests with fakes (place order, cancel order, record stock movement, login, refresh token reuse)
+- Tests: integration tests with WebApplicationFactory against a throwaway database
+- Domain tests for Customer, Address, User, and RefreshToken
