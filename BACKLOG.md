@@ -68,3 +68,10 @@
 - Tests: handler tests with fakes (place order, cancel order, record stock movement, login, refresh token reuse)
 - Tests: integration tests with WebApplicationFactory against a throwaway database
 - Domain tests for Customer, Address, User, and RefreshToken
+
+- Upgrade to .NET 10 (the .NET 8 and 9 end-of-support date is November 10, 2026): target framework, EF Core and package versions, Docker base images, and the IDE
+- Connect as a least-privilege SQL login instead of sa
+- Run migrations as a separate deployment step instead of at API startup
+- Container healthcheck for the API
+- Pin Docker image versions
+- Reverse proxy with HTTPS for real deployment, plus forwarded headers so rate limiting sees real client IPs

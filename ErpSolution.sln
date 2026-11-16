@@ -24,6 +24,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Erp.Domain.Tests", "tests\Erp.Domain.Tests\Erp.Domain.Tests.csproj", "{3DAC13E6-D42E-4CB0-8F1C-5A060CA4432A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reporoot", "Reporoot", "{4EA64A94-BD19-46A3-9071-75E44FFF4431}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerIgnore = .dockerIgnore
+		docker-compose.yml = docker-compose.yml
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

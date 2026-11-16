@@ -1,0 +1,46 @@
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+    ports:
+      - "14333:1433"
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q \"SELECT 1\" -b -o /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  mail:
+    image: rnwood/smtp4dev:v3
+    ports:
+      - "5051:80"
+
+  api:
+    build: .
+    depends_on:
+      sql:
+        condition: service_healthy
+      mail:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Swagger__Enabled: "true"
+      Database__MigrateOnStartup: "true"
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=ErpInventoryOrders;User Id=sa;Password=${SA_PASSWORD};TrustServerCertificate=True"
+      Jwt__SigningKey: ${JWT_SIGNING_KEY}
+      Seed__AdminEmail: ${ADMIN_EMAIL}
+      Seed__AdminPassword: ${ADMIN_PASSWORD}
+      Email__Host: mail
+      Email__Port: "25"
+      Cors__AllowedOrigins__0: "http://localhost:5173"
+      App__FrontendBaseUrl: "http://localhost:5173"
+
+volumes:
+  sqldata:
