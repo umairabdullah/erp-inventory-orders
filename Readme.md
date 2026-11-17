@@ -1,5 +1,7 @@
 # ERP Inventory & Orders API
 
+![CI](https://github.com/umairabdullah/erp-inventory-orders/actions/workflows/ci.yml/badge.svg)
+
 A backend for small-business inventory and order management, built with ASP.NET Core using onion architecture and domain-driven design.
 
 ## Features
