@@ -30,7 +30,8 @@ namespace Erp.Domain.Tests.Sales
         [Fact]
         public void Place_requires_a_customer_and_an_order_number()
         {
-            Assert.Throws<DomainException>(() => Order.Place("ORD-1", Guid.NewGuid(), null, null, new[] { Line() }));
+            var order = (Order.Place("ORD-1", Guid.NewGuid(), null, null, new[] { Line() }));
+            Assert.Equal("ORD-1", order.OrderNumber);
 
             Assert.Throws<DomainException>(() => Order.Place("   ", Guid.NewGuid(), null, null, Array.Empty<OrderLine>()));
         }

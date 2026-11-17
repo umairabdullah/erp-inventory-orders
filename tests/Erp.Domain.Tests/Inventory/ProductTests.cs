@@ -59,7 +59,7 @@ namespace Erp.Domain.Tests.Inventory
             var product = NewProduct(stock: 10);
             var ex = Assert.Throws<DomainException>(() => product.RemoveStock(11));
 
-            Assert.Contains("Available: 10", ex.Message);
+            Assert.Contains("Insufficent stock. Available 10.", ex.Message);
             Assert.Equal(10, product.QuantityInStock);
         }
 
