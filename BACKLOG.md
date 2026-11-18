@@ -75,3 +75,7 @@
 - Container healthcheck for the API
 - Pin Docker image versions
 - Reverse proxy with HTTPS for real deployment, plus forwarded headers so rate limiting sees real client IPs
+
+- Upgrade Swashbuckle.AspNetCore (newer versions use new OpenAPI types), or switch to the built-in OpenAPI support
+- Update other NuGet packages (Serilog, MailKit, xUnit) with dotnet list package --outdated
+- Use Visual Studio 2026, or remove .NET 8 and 9 from the machine
