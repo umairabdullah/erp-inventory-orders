@@ -161,6 +161,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("Swagger:Enabled"))
 {
+    app.MapGet("/", () => Results.Redirect("/swagger")).ExcludeFromDescription();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

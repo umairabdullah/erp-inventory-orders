@@ -28,7 +28,7 @@ Dependencies only point inward. The domain has no references to any other projec
 
 ## Tech stack
 
-ASP.NET Core 8, EF Core 8, SQL Server 2022, MediatR 12, FluentValidation, Serilog, MailKit, xUnit, Docker.
+ASP.NET Core 10, EF Core 10, SQL Server 2022, MediatR 12, FluentValidation, Serilog, MailKit, xUnit, Docker.
 
 ## Run with Docker
 
@@ -70,4 +70,3 @@ dotnet test
 - Access tokens last 15 minutes, so a role change applies to existing tokens only after they expire.
 - Rate limiting is in memory, so it works for a single instance only.
 - Migrations run at startup when `Database__MigrateOnStartup` is true, which suits a demo more than a large deployment.
-- Targets .NET 8. Upgrading to .NET 10, the current LTS release, is planned.
