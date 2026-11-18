@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /source
 
 # Project files first, so the restore layer is cached until a package changes
@@ -16,7 +16,7 @@ RUN find Src -type d \( -name bin -o -name obj \) -prune -exec rm -rf {} + \
  && dotnet restore Src/Api/Erp.Api/Erp.Api.csproj
 RUN dotnet publish Src/Api/Erp.Api/Erp.Api.csproj -c Release -o /app/publish --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 RUN mkdir -p /app/logs && chown -R $APP_UID /app/logs
 COPY --from=build /app/publish .

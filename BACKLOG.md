@@ -75,3 +75,7 @@
 - Container healthcheck for the API
 - Pin Docker image versions
 - Reverse proxy with HTTPS for real deployment, plus forwarded headers so rate limiting sees real client IPs
+
+- Dependabot for NuGet, Docker, and GitHub Actions updates
+- Integration tests in CI with a throwaway SQL Server container
+- Code coverage report in CI
