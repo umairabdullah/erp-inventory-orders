@@ -49,3 +49,73 @@ body {
 .bad {
   color: #b91c1c;
 }
+
+.userbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.userbox span {
+  color: #d1d5db;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  background: #2563eb;
+  color: #fff;
+  font: inherit;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.userbox button {
+  background: #374151;
+}
+
+.form {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 380px;
+}
+
+.form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.form input {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.alert {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+}
+
+.alert.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.alert.success {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.hint {
+  color: #6b7280;
+  font-size: 0.85rem;
+}

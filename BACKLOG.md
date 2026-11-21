@@ -85,3 +85,12 @@ HEAD
 - Integration tests in CI with a throwaway SQL Server container
 - Code coverage report in CI
   upgrade-net10
+
+- Switch the client to TypeScript
+- Add a client build and lint job to CI
+- Serve the client from a container behind a reverse proxy (production setup)
+
+- Move the refresh token to an httpOnly, SameSite cookie (API change; needs CSRF thought), so scripts cannot read it
+- Refresh races between several browser tabs (reuse detection can sign you out): coordinate with a lock or BroadcastChannel
+- "Your session expired" notice when a session ends while you are working
+- Show/hide password toggle and a password strength hint

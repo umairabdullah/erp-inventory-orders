@@ -10,10 +10,10 @@ namespace Erp.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ISender _sender;
-        public ProductController(ISender sender) => _sender = sender;
+        public ProductsController(ISender sender) => _sender = sender;
 
         [HttpGet]
         public async Task<IActionResult> GetAll(

@@ -1,7 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout.jsx'
+import ProtectedRoute from './auth/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
 import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import ConfirmEmail from './pages/ConfirmEmail.jsx'
 import Products from './pages/Products.jsx'
 import Customers from './pages/Customers.jsx'
 import Orders from './pages/Orders.jsx'
@@ -14,10 +17,15 @@ export default function App(){
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
-          <Route path="products" element={<Products />} />
-          <Route path="customers" element={<Customers />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="register" element={<Register />}/>
+          <Route path="confirm-email" element={<ConfirmEmail />}/>
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="products" element={<Products />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="orders" element={<Orders />} />
+          </Route>
+            <Route path="*" element={<NotFound />} />
         </Route>
     </Routes>
   )
